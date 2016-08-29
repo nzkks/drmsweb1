@@ -1,0 +1,26 @@
+{
+  "name": "drmsweb1",
+  "description": "This is going to be my portfolio website",
+  "main": "index.js",
+  "authors": [
+    "Shanthosh Krishnakumar"
+  ],
+  "license": "ISC",
+  "homepage": "http://www.drmsweb.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "*"
+  },
+  "install": {
+    "path": "src/vendors",
+    "sources": {
+      "jquery": "bower_components/jquery/dist/jquery.min.js"
+    }
+  }
+}

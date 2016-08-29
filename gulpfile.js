@@ -18,13 +18,26 @@ var gulp                = require('gulp'),
 var jsSRC               = './src/js/*.js',
     jsDEST              = 'dist/assets/scripts/',
     concatJsFile        = 'app.min.js',
-    vendorsJsSRC        = './src/js/vendors/**/*.js',
+    vendorsJsSRC        = './src/vendors/**/*.js',
     concatVendorJsFile  = 'vendors.min.js',
+    vendorsCssSRC        = './src/vendors/**/*.css',
+    concatVendorCssFile  = 'vendors.min.css',
     sassSRC             = './src/sass',
     cssDEST             = 'dist/assets/styles/',
     autoPrefixBrowsers  = ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'],
     htmlSRC             = './src/index.html',
     htmlDEST            = 'dist/';
+
+gulp.task('compressVendorStyles', function(){
+  return gulp.src(vendorsCssSRC)
+      .pipe(sourceMaps.init())
+      .pipe(concat(concatVendorCssFile))
+      //.pipe(autoPrefixer({browsers: autoPrefixBrowsers}))
+      .pipe(cleanCss())
+      //.pipe(rename({extname: ".min.css"}))
+      .pipe(sourceMaps.write())
+      .pipe(gulp.dest(cssDEST));
+});
 
 gulp.task('cssifySass', function(){
   return gulp.src(sassSRC +'/app.sass')
@@ -76,9 +89,10 @@ gulp.task('serve', function(){
   gulp.watch('./src/sass/**/*.sass', ['cssifySass']).on('change', reload);
   gulp.watch(jsSRC, ['lint', 'concatAndMinifyScripts']).on('change', reload);
   gulp.watch(vendorsJsSRC, ['copyVendorsScripts']).on('change', reload);
+  gulp.watch(vendorsCssSRC, ['compressVendorStyles']).on('change', reload);
   gulp.watch(htmlSRC, ['copyHTML']).on('change', reload);
 });
 
 gulp.task('default', function(callback){
-  runSequence(['serve', 'cssifySass', 'copyHTML', 'copyVendorsScripts', 'lint', 'concatAndMinifyScripts'], callback);
+  runSequence(['serve', 'compressVendorStyles', 'cssifySass', 'copyHTML', 'copyVendorsScripts', 'lint', 'concatAndMinifyScripts'], callback);
 });

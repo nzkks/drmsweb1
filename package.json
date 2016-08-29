@@ -1,12 +1,14 @@
 {
   "name": "drmsweb1",
   "version": "1.0.0",
-  "description": "[drmsweb.com](http://www.drmsweb.com/)",
+  "description": "This is going to be my portfolio website",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Shanthosh Krishnakumar",
+  "email": "kkshanthosh@gmail.com",
+  "website": "http://www.drmsweb.com",
   "license": "ISC",
   "repository": {
     "type": "git",

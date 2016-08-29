@@ -16,18 +16,18 @@ var gulp                = require('gulp'),
     reload              = browserSync.reload;
 
 var jsSRC               = './src/js/*.js',
-    jsDEST              = 'dist/',
-    concatJsFile        = 'main.min.js',
+    jsDEST              = 'dist/assets/scripts/',
+    concatJsFile        = 'app.min.js',
     vendorsJsSRC        = './src/js/vendors/**/*.js',
     concatVendorJsFile  = 'vendors.min.js',
     sassSRC             = './src/sass',
-    cssDEST             = 'dist/',
+    cssDEST             = 'dist/assets/styles/',
     autoPrefixBrowsers  = ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'],
     htmlSRC             = './src/index.html',
     htmlDEST            = 'dist/';
 
 gulp.task('cssifySass', function(){
-  return gulp.src(sassSRC +'/main.sass')
+  return gulp.src(sassSRC +'/app.sass')
       .pipe(sourceMaps.init())
       .pipe(sass.sync().on('error', sass.logError))
       .pipe(autoPrefixer({browsers: autoPrefixBrowsers}))

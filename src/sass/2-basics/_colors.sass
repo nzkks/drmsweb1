@@ -1,0 +1,15 @@
+body
+  -webkit-tap-highlight-color: $selection-colour
+  background-color: $main-bg-color
+
+::selection
+  background: $selection-colour
+
+::-moz-selection
+  background: $selection-colour
+
+img::selection
+  background: transparent
+
+img::-moz-selection
+  background: transparent

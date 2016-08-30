@@ -18,7 +18,10 @@
     "jquery": "*"
   },
   "install": {
-    "path": "src/vendors",
+    "path": {
+      "css": "src/sass/2-vendors",
+      "js": "src/vendors"
+    },
     "sources": {
       "jquery": "bower_components/jquery/dist/jquery.min.js"
     }

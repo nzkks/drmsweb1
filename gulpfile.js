@@ -22,7 +22,7 @@ var jsSRC               = './src/js/*.js',
     concatVendorJsFile  = 'vendors.min.js',
     vendorsCssSRC        = './src/vendors/**/*.css',
     concatVendorCssFile  = 'vendors.min.css',
-    sassSRC             = './src/sass',
+    sassSRC             = './src/sass/app.sass',
     cssDEST             = 'dist/assets/styles/',
     autoPrefixBrowsers  = ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'],
     htmlSRC             = './src/index.html',
@@ -40,7 +40,7 @@ gulp.task('compressVendorStyles', function(){
 });
 
 gulp.task('cssifySass', function(){
-  return gulp.src(sassSRC +'/app.sass')
+  return gulp.src(sassSRC)
       .pipe(sourceMaps.init())
       .pipe(sass.sync().on('error', sass.logError))
       .pipe(autoPrefixer({browsers: autoPrefixBrowsers}))

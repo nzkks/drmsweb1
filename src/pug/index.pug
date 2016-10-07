@@ -1,0 +1,43 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=Edge')
+    title DRMSWeb
+    meta(name='author', content='')
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='assets/styles/app.min.css')
+  body.body
+    .page-wrapper
+      header.header(role='banner')
+        .header__top-bg
+          .container
+            a.top-logo(href='#')
+              img(src='assets/images/logo.png', alt='DRMSWeb logo')
+            .scrolldown
+              span.icon-mouse
+              span.fa.fa-angle-down
+        nav.header__navigation(role='navigation')
+          .container
+            .logo
+              a(href='#header')
+                span.normal DRMSWeb
+                span.small D
+            .menu-btn
+              span.touch-btn.close
+            .main-menu
+              ul
+                li
+                  a(href='#') Home
+                li
+                  a(href='#') Portfolio
+                li
+                  a(href='#') About Me
+                li
+                  a(href='#') Contact
+      main.main(role='main')
+        | Content
+      footer.footer footer
+    script(src='assets/scripts/vendors.min.js')
+    script(src='assets/scripts/app.min.js')

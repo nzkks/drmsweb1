@@ -3,6 +3,7 @@
 var gulp                = require('gulp'),
     pug                 = require('gulp-pug'),
     path                = require('path'),
+    bower               = require('gulp-bower'),
     jsHint              = require('gulp-jshint'),
     concat              = require('gulp-concat'),
     uglify              = require('gulp-uglify'),
@@ -17,12 +18,15 @@ var gulp                = require('gulp'),
     browserSync         = require('browser-sync').create(),
     reload              = browserSync.reload;
 
-var paths               = {
+var config              = {
+    bowerDir            : './bower_components',
+    fontsDEST           : 'dist/assets/fonts/',
     jsSRC               : ['./src/js/*.js'],
     jsDEST              : 'dist/assets/scripts/',
     concatJsFile        : 'app.min.js',
     vendorsJsSRC        : ['./src/vendors/**/*.js'],
     concatVendorJsFile  : 'vendors.min.js',
+    fontAwesomeScssDEST : './src/sass/2-vendors/fontawesome/',
     vendorsCssSRC       : ['./src/vendors/**/*.css'],
     concatVendorCssFile : 'vendors.min.css',
     sassSRC             : ['./src/sass/app.sass'],
@@ -34,63 +38,82 @@ var paths               = {
     htmlDEST            : 'dist/'
 };
 
+gulp.task('bower', function() {
+  return bower()
+    .pipe(gulp.dest(config.bowerDir))
+});
+
+gulp.task('copyFontAwesomeFonts', function() {
+  return gulp.src(config.bowerDir + '/font-awesome/fonts/**.*')
+    .pipe(plumber())
+    .pipe(gulp.dest(config.fontsDEST));
+});
+
+gulp.task('copyFontAwesomeSass', function() {
+  return gulp.src(config.bowerDir + '/font-awesome/scss/**.*')
+    .pipe(plumber())
+    .pipe(gulp.dest(config.fontAwesomeScssDEST));
+});
+
 gulp.task('compressVendorStyles', function(){
-  return gulp.src(paths.vendorsCssSRC)
-      .pipe(sourceMaps.init())
-      .pipe(concat(paths.concatVendorCssFile))
-      //.pipe(autoPrefixer({browsers: autoPrefixBrowsers}))
-      .pipe(cleanCss())
-      //.pipe(rename({extname: ".min.css"}))
-      .pipe(sourceMaps.write())
-      .pipe(gulp.dest(paths.cssDEST));
+  return gulp.src(config.vendorsCssSRC)
+    .pipe(sourceMaps.init())
+    .pipe(plumber())
+    .pipe(concat(config.concatVendorCssFile))
+    //.pipe(autoPrefixer({browsers: autoPrefixBrowsers}))
+    .pipe(cleanCss())
+    //.pipe(rename({extname: ".min.css"}))
+    .pipe(sourceMaps.write())
+    .pipe(gulp.dest(config.cssDEST));
 });
 
 gulp.task('cssifySass', function(){
-  return gulp.src(paths.sassSRC)
-      .pipe(sourceMaps.init())
-      .pipe(sass.sync().on('error', sass.logError))
-      .pipe(autoPrefixer({browsers: paths.autoPrefixBrowsers}))
-      .pipe(cleanCss())
-      .pipe(rename({extname: ".min.css"}))
-      .pipe(sourceMaps.write())
-      .pipe(gulp.dest(paths.cssDEST));
+  return gulp.src(config.sassSRC)
+    .pipe(sourceMaps.init())
+    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(autoPrefixer({browsers: config.autoPrefixBrowsers}))
+    .pipe(cleanCss())
+    .pipe(rename({extname: ".min.css"}))
+    .pipe(sourceMaps.write())
+    .pipe(gulp.dest(config.cssDEST));
 });
 
 gulp.task('processPugFiles', function(){
-  return gulp.src(paths.pugSRC)
-      .pipe(pug())
-      .pipe(gulp.dest(paths.pugDEST));
+  return gulp.src(config.pugSRC)
+    .pipe(plumber())
+    .pipe(pug())
+    .pipe(gulp.dest(config.pugDEST));
 });
 
 gulp.task('copyHTML', function(){
-  return gulp.src(paths.htmlSRC)
-      .pipe(plumber())
-      .pipe(copy())
-      .pipe(gulp.dest(paths.htmlDEST));
+  return gulp.src(config.htmlSRC)
+    .pipe(plumber())
+    .pipe(copy())
+    .pipe(gulp.dest(config.htmlDEST));
 });
 
 gulp.task('copyVendorsScripts', function(){
-  return gulp.src(paths.vendorsJsSRC)
-      .pipe(plumber())
-      .pipe(concat(paths.concatVendorJsFile))
-      .pipe(gulp.dest(paths.jsDEST));
+  return gulp.src(config.vendorsJsSRC)
+    .pipe(plumber())
+    .pipe(concat(config.concatVendorJsFile))
+    .pipe(gulp.dest(config.jsDEST));
 });
 
 gulp.task('lint', function(){
-  return gulp.src(paths.jsSRC)
-      .pipe(plumber())
-      .pipe(jsHint())
-      .pipe(jsHint.reporter('default'));
+  return gulp.src(config.jsSRC)
+    .pipe(plumber())
+    .pipe(jsHint())
+    .pipe(jsHint.reporter('default'));
 });
 
 gulp.task('concatAndMinifyScripts', function(){
-  return gulp.src(paths.jsSRC)
-      .pipe(sourceMaps.init())
-      .pipe(plumber())
-      .pipe(concat(paths.concatJsFile))
-      .pipe(uglify())
-      .pipe(sourceMaps.write())
-      .pipe(gulp.dest(paths.jsDEST));
+  return gulp.src(config.jsSRC)
+    .pipe(sourceMaps.init())
+    .pipe(plumber())
+    .pipe(concat(config.concatJsFile))
+    .pipe(uglify())
+    .pipe(sourceMaps.write())
+    .pipe(gulp.dest(config.jsDEST));
 });
 
 gulp.task('serve', function(){
@@ -98,14 +121,14 @@ gulp.task('serve', function(){
     server: './dist/'
   });
 
-  gulp.watch(paths.pugSRC, ['processPugFiles']).on('change', reload);
+  gulp.watch(config.pugSRC, ['processPugFiles']).on('change', reload);
   gulp.watch('./src/sass/**/*.sass', ['cssifySass']).on('change', reload);
-  gulp.watch(paths.jsSRC, ['lint', 'concatAndMinifyScripts']).on('change', reload);
-  gulp.watch(paths.vendorsJsSRC, ['copyVendorsScripts']).on('change', reload);
-  gulp.watch(paths.vendorsCssSRC, ['compressVendorStyles']).on('change', reload);
-  gulp.watch(paths.htmlSRC, ['copyHTML']).on('change', reload);
+  gulp.watch(config.jsSRC, ['lint', 'concatAndMinifyScripts']).on('change', reload);
+  gulp.watch(config.vendorsJsSRC, ['copyVendorsScripts']).on('change', reload);
+  gulp.watch(config.vendorsCssSRC, ['compressVendorStyles']).on('change', reload);
+  gulp.watch(config.htmlSRC, ['copyHTML']).on('change', reload);
 });
 
 gulp.task('default', function(callback){
-  runSequence(['serve', 'processPugFiles', 'compressVendorStyles', 'cssifySass', 'copyHTML', 'copyVendorsScripts', 'lint', 'concatAndMinifyScripts'], callback);
+  runSequence(['serve', 'bower', 'copyFontAwesomeFonts', 'copyFontAwesomeSass', 'processPugFiles', 'compressVendorStyles', 'cssifySass', 'copyHTML', 'copyVendorsScripts', 'lint', 'concatAndMinifyScripts'], callback);
 });

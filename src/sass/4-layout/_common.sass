@@ -1,2 +1,40 @@
 .page-wrapper
-  @include container
+  overflow: hidden
+  position: relative
+.header__top-bg
+  background: url('http://placehold.it/1800x675') no-repeat fixed center top
+  height: 675px
+  position: relative
+  .container
+    @include container
+    .top-logo
+      margin: 35px 0 0 35px
+      display: inline-block
+      position: relative
+      z-index: 100
+    .scrolldown
+      position: absolute
+      bottom: 30px
+      left: 50%
+      height: 100px
+      text-align: center
+      transform: translateX(-50%)
+      .icon-mouse
+        background: url('../images/icon-mouse.png') no-repeat 0 0
+        display: block
+        width: 31px
+        height: 57px
+      .fa
+        display: inline-block
+        color: #fff
+        font-size: 42px
+        font-size: 4.2rem
+        animation: scrolldown 1.5s ease infinite
+.header__navigation
+  .container
+    @include container
+    .logo
+    .menu-btn
+    .main-menu
+.main
+.footer

@@ -15,7 +15,8 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "*"
+    "jquery": "*",
+    "font-awesome": "^4.6.3"
   },
   "install": {
     "path": {
@@ -23,7 +24,8 @@
       "js": "src/vendors"
     },
     "sources": {
-      "jquery": "bower_components/jquery/dist/jquery.min.js"
+      "jquery": "bower_components/jquery/dist/jquery.min.js",
+      "font-awesome": "bower_components/font-awesome/scss/font-awesome.scss"
     }
   }
 }

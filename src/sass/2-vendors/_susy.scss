@@ -5,7 +5,7 @@ $susy: (
   output: float, // float | isolate
   math: fluid, // fluid | static (requires column-width)
   column-width: false, // false | value
-  container: 960px, // length or % | auto
+  container: 1170px, // length or % | auto
   container-position: center, // left | center | right | <length> [*2] (grid padding)
   last-flow: to,
   columns: 12,

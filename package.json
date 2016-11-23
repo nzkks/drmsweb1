@@ -1,7 +1,7 @@
 {
-  "name": "drmsweb1",
+  "name": "webapp-combo1",
   "version": "1.0.0",
-  "description": "This is going to be my portfolio website",
+  "description": "Just another app combination",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,7 +12,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nzkks/drmsweb1.git"
+    "url": "https://github.com/nzkks/webapp-combo1.git"
   },
   "devDependencies": {
     "browser-sync": "^2.14.0",
